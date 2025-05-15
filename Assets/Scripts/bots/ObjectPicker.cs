@@ -32,6 +32,7 @@ public class ObjectPicker : MonoBehaviour
             }
         }
     }
+
     public IEnumerator PickUp(ResourceNode resourceNode)
     {
         yield return _delay;
