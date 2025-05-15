@@ -1,0 +1,4 @@
+repository "CollectingBots@FantAz333r@cloud"
+  path "/"
+    br "/main"
+    co "/main"
