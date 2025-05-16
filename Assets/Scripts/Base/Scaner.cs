@@ -13,7 +13,6 @@ public class Scaner : MonoBehaviour
 
     public event Action<List<ResourceNode>> ScanComplited;
 
-
     private void Awake()
     {
         _wait = new WaitForSeconds(_repeateTime);
@@ -42,6 +41,9 @@ public class Scaner : MonoBehaviour
             }
         }
 
-        ScanComplited?.Invoke(foundResources);
+        if (foundResources.Count > 0)
+        {
+            ScanComplited?.Invoke(foundResources);
+        }
     }
 }

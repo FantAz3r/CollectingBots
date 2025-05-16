@@ -5,27 +5,23 @@ public class DataBase : MonoBehaviour
 {
     private List<ResourceNode> _buzyNodes = new List<ResourceNode>();
     private List<ResourceNode> _nodes = new List<ResourceNode>();
+    private ResourceNode _closestNode = null;
 
-    public ResourceNode SetValidNode(List<ResourceNode> nodes)
+    public ResourceNode GetClosestNode(List<ResourceNode> nodes)
     {
-        _nodes = nodes;
+        _nodes.Remove(_closestNode);
+        _buzyNodes.Add(_closestNode);
 
-        if (_buzyNodes.Count > 0)
+        foreach (ResourceNode node in nodes)
         {
-            foreach (var resource in _buzyNodes)
+            if (_nodes.Contains(node) == false && _buzyNodes.Contains(node) == false)
             {
-                _nodes.Remove(resource);
+                _nodes.Add(node);
             }
         }
 
-        return Utils.GetClosestPosition(transform.position, _nodes);
-    }
+        _closestNode = Utils.GetClosestPosition(transform.position, _nodes);
 
-    public void SetBuzyNode(ResourceNode node)
-    {
-        if (node != null)
-        {
-            _buzyNodes.Add(node);
-        }
+        return _closestNode;
     }
 }

@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Scaner))]
 [RequireComponent(typeof(Storage))]
 [RequireComponent(typeof(DataBase))]
+//[RequireComponent(typeof(FlagSeter))]
 public class Base : MonoBehaviour
 {
     [SerializeField] private List<Bot> _allBots;
@@ -13,12 +13,14 @@ public class Base : MonoBehaviour
     private DataBase _dataBase;
     private Scaner _scaner;
     private Storage _storage;
+    //private FlagSeter _flagSeter;
 
     private void Awake()
     {
         _scaner = GetComponent<Scaner>();
         _storage = GetComponent<Storage>();
         _dataBase = GetComponent<DataBase>();
+        //_flagSeter = GetComponent<FlagSeter>();
     }
 
     private void Start()
@@ -27,7 +29,6 @@ public class Base : MonoBehaviour
         {
             bot.SetBase(transform.position);     
             _freeBots.Enqueue(bot);
-            bot.WorkEnded += BotWorkComplite;
         }
     }
 
@@ -43,25 +44,28 @@ public class Base : MonoBehaviour
 
     private void SendBot(List<ResourceNode> targets)
     {
-        if (_freeBots.Count > 0)
+        if(_storage.Overflow() == false)
         {
-            ResourceNode target = _dataBase.SetValidNode(targets);
-            Bot bot = _freeBots.Dequeue();
-            bot.Returned += BotReturned;
-            bot.StartCorutine(target);
-            _dataBase.SetBuzyNode(target);
+            if (_freeBots.Count > 0)
+            {
+                ResourceNode target = _dataBase.GetClosestNode(targets);
+                Bot bot = _freeBots.Dequeue();
+                bot.WorkEnded += OnWorkComplite;
+                bot.Returned += OnReturn;
+                bot.StartWork(target);
+            }
         }
     }
 
-    private void BotReturned(Bot bot, ResourcePiece resource, int amount )
+    private void OnReturn(Bot bot, ResourcePiece resource, int amount )
     {
         _storage.Collect(resource, amount);
     }
 
-    private void BotWorkComplite(Bot bot)
+    private void OnWorkComplite(Bot bot)
     {
         _freeBots.Enqueue(bot);
-        bot.Returned -= BotReturned;
-        bot.WorkEnded -= BotWorkComplite;
+        bot.Returned -= OnReturn;
+        bot.WorkEnded -= OnWorkComplite;
     }
 }

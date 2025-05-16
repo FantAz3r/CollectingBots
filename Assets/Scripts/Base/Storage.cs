@@ -30,4 +30,14 @@ public class Storage : MonoBehaviour
         ResourceChanged?.Invoke(_resources);
         TotalAmountChanged?.Invoke(_currentAmount);
     }
+
+    public bool Overflow()
+    {
+        if (_maxCapacity == _currentAmount)
+        {
+           return true;
+        }
+
+        return false;
+    }
 }

@@ -26,12 +26,12 @@ public class Bot : MonoBehaviour
     {
         _basePosition = basePosition;
     }
-    public void StartCorutine(ResourceNode resource)
+    public void StartWork(ResourceNode resource)
     {
-        StartCoroutine(StartGathering(resource));
+        StartCoroutine(Gathering(resource));
     }
 
-    public IEnumerator StartGathering(ResourceNode resource)
+    public IEnumerator Gathering(ResourceNode resource)
     {
         while (resource != null)
         {

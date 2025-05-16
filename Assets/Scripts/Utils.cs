@@ -11,11 +11,12 @@ public static class Utils
         }
 
         ResourceNode closestResource = resources[0];
-        float minDistance = Vector3.Distance(currentPosition, closestResource.transform.position);
+        float minDistance = Vector3.SqrMagnitude(currentPosition - closestResource.transform.position);
 
         foreach (var resource in resources)
         {
-            float dist = Vector3.Distance(currentPosition, resource.transform.position);
+            float dist = Vector3.SqrMagnitude(currentPosition - resource.transform.position);
+
             if (dist < minDistance)
             {
                 minDistance = dist;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectPicker : MonoBehaviour
@@ -7,8 +8,8 @@ public class ObjectPicker : MonoBehaviour
     [SerializeField] private float _holdDistance = 1.5f;
     [SerializeField] private int _pickAmount = 1;
     [SerializeField] private float _extractTime = 2f;
-    [SerializeField] private ResourcePiece[] _resources;
 
+    private List<ResourcePiece> _resources = new List<ResourcePiece>();
     private ResourcePiece _currentObject;
     private WaitForSeconds _delay;
 
@@ -17,7 +18,6 @@ public class ObjectPicker : MonoBehaviour
     private void Awake()
     {
         _delay = new WaitForSeconds(_extractTime);
-        DeactivateAllResources();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,32 +37,36 @@ public class ObjectPicker : MonoBehaviour
     {
         yield return _delay;
         _currentObject = GetResource(resourceNode);
-        _currentObject.PickUp(transform, _holdDistance);
-    }
+        _currentObject.gameObject.SetActive(true);
 
-    private void DeactivateAllResources()
-    {
-        foreach (var resource in _resources)
-        {
-            resource.gameObject.SetActive(false);
-        }
     }
 
     private ResourcePiece GetResource(ResourceNode resourceNode)
     {
-        _currentObject = resourceNode.Extract(_pickAmount);
+        ResourcePiece newResource = resourceNode.Extract(_pickAmount);
 
-        for (int i = 0; i < _resources.Length; i++)
+        if (_resources.Count > 0)
         {
-            if (_resources[i].PeiceType == _currentObject.PeiceType)
+            foreach(var resource in _resources)
             {
-                _resources[i].gameObject.SetActive(true);
-
-                return _resources[i];
+                if (resource.PeiceType == newResource.PeiceType)
+                {
+                    return resource; 
+                }
             }
         }
 
-        return null;
+        return CreateResourse(newResource); 
+    }
+
+    private ResourcePiece CreateResourse(ResourcePiece newResource)
+    {
+        ResourcePiece currentResource = Instantiate(newResource);
+        currentResource.transform.SetParent(transform);
+        currentResource.transform.localPosition = new Vector3(0f, 0f, _holdDistance);
+        _resources.Add(currentResource);
+
+        return currentResource;
     }
 
     private void DeactivateCurrentResource()
