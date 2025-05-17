@@ -56,4 +56,3 @@ public class Bot : MonoBehaviour
         _picker.Arrived -= Discharge;
     }
 }
-

@@ -16,19 +16,19 @@ public class Scaner : MonoBehaviour
     private void Awake()
     {
         _wait = new WaitForSeconds(_repeateTime);
-        StartCoroutine(ScaningCoroutine());
+        StartCoroutine(Scaning());
     }
 
-    public IEnumerator ScaningCoroutine()
+    private IEnumerator Scaning()
     {
         while (enabled)
         {
-            Skan();
+            Scan();
             yield return _wait;
         }
     }
 
-    private void Skan()
+    private void Scan()
     {
         List<ResourceNode> foundResources = new List<ResourceNode>();
         Collider[] hits = Physics.OverlapSphere(transform.position, _scanRadius, _scanLayerMask);

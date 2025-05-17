@@ -1,4 +1,4 @@
 public enum ResourceType
 {
-    Gold, Iron, Copper
+    Gold, Iron, Cupper
 }

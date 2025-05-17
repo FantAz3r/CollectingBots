@@ -31,13 +31,8 @@ public class Storage : MonoBehaviour
         TotalAmountChanged?.Invoke(_currentAmount);
     }
 
-    public bool Overflow()
+    public bool IsOverflow()
     {
-        if (_maxCapacity == _currentAmount)
-        {
-           return true;
-        }
-
-        return false;
+        return _maxCapacity == _currentAmount;
     }
 }

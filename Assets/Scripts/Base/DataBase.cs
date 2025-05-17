@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DataBase : MonoBehaviour
+public class Database : MonoBehaviour
 {
     private List<ResourceNode> _buzyNodes = new List<ResourceNode>();
     private List<ResourceNode> _nodes = new List<ResourceNode>();

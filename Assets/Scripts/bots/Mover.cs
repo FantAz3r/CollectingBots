@@ -11,7 +11,7 @@ public class Mover : MonoBehaviour
     {
         target = new Vector3(target.x, target.y + _botOffsetY, target.z);
 
-        while (Vector3.SqrMagnitude(target-transform.position) > _treshhold)
+        while (transform.position.IsEnoughClose(target, _treshhold) == false)
         {
             transform.position = Vector3.MoveTowards(transform.position, target, _moveSpeed * Time.deltaTime);
             yield return null;
