@@ -81,9 +81,9 @@ public class Base : MonoBehaviour
         if (_storage.IsEnoughResource(_builder.BuildingObject.ReturnCost()))
         {
             _storage.SpendResource(_builder.BuildingObject.ReturnCost());
-            GameObject buildingObject = _builder.Build(transform.position);
+            BuildingObject buildingObject = _builder.Build(transform.position);
 
-            if (buildingObject != null && buildingObject.TryGetComponent(out Bot bot))
+            if (buildingObject != null && buildingObject.Prefab.TryGetComponent(out Bot bot))
             {
                 _garage.Return(bot);
             }

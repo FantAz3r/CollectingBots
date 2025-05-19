@@ -6,8 +6,8 @@ public class Builder : MonoBehaviour
     
     public BuildingObject BuildingObject => _buildingObject;
 
-    public GameObject Build(Vector3 place)
+    public BuildingObject Build(Vector3 place)
     {
-        return Instantiate(_buildingObject.Prefab, place, Quaternion.identity);
+        return Instantiate(_buildingObject, place, Quaternion.identity);
     }
 }

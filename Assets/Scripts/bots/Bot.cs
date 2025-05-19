@@ -85,9 +85,9 @@ public class Bot : MonoBehaviour
         yield return MoveToTarget(position);
 
         BuildStarted?.Invoke();
-        GameObject newBase = _builder.Build(position);
+        BuildingObject newBase = _builder.Build(position);
 
-        if (newBase.TryGetComponent(out Garage garage))
+        if (newBase.Prefab.TryGetComponent(out Garage garage))
         {
             SetBase(garage.transform.position, garage);
             garage.Return(this);
