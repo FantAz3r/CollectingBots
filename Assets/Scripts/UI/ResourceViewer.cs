@@ -33,9 +33,6 @@ public class ResourceViewer : MonoBehaviour
 
     private void OnTotalAmountChanged(int total)
     {
-        if (_totalAmountText != null)
-        {
-            _totalAmountText.text = total.ToString();
-        }
+        _totalAmountText.text = total.ToString();
     }
 }

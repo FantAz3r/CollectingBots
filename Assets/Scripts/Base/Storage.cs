@@ -36,7 +36,6 @@ public class Storage : MonoBehaviour
         }
 
         _currentAmount += amountToAdd;
-        ResourceAdded?.Invoke();
         ViewActions();
     }
 
@@ -73,5 +72,6 @@ public class Storage : MonoBehaviour
     {
         ResourceAdded?.Invoke();
         ResourceChanged?.Invoke(_resources);
+        TotalAmountChanged?.Invoke(_currentAmount);
     }
 }
