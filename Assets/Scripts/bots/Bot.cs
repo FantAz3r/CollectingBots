@@ -5,30 +5,50 @@ using UnityEngine;
 [RequireComponent(typeof(Mover))]
 [RequireComponent(typeof(Rotator))]
 [RequireComponent(typeof(ObjectPicker))]
+[RequireComponent(typeof(Builder))]
 public class Bot : MonoBehaviour
 {
+    [SerializeField] private Vector3 _basePosition;
+
     private Mover _mover;
     private ObjectPicker _picker;
     private Rotator _rotator;
-    private Vector3 _basePosition;
+    private Builder _builder;
+    private Garage _currentGarage;
+    private Coroutine _coroutine;
+
+    private bool _isEnoughGather;
 
     public event Action<Bot, ResourcePiece, int> Returned;
     public event Action<Bot> WorkEnded;
+    public event Action BuildStarted;
 
     private void Awake()
     {
         _mover = GetComponent<Mover>();
         _picker = GetComponent<ObjectPicker>();
         _rotator = GetComponent<Rotator>();
+        _builder = GetComponent<Builder>();
     }
 
-    public void SetBase(Vector3 basePosition)
+    public void SetBase(Vector3 basePosition, Garage garage)
     {
         _basePosition = basePosition;
+        _currentGarage = garage;
     }
-    public void StartWork(ResourceNode resource)
+
+    public void StartWork(ResourceNode resource, Transform garage)
     {
-        StartCoroutine(Gathering(resource));
+        if (garage == _currentGarage.transform)
+        {
+            if (_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+                _coroutine = null;
+            }
+
+            _coroutine = StartCoroutine(Gathering(resource));
+        }
     }
 
     public IEnumerator Gathering(ResourceNode resource)
@@ -39,9 +59,41 @@ public class Bot : MonoBehaviour
             yield return MoveToTarget(resource.transform.position);
             yield return _picker.PickUp(resource);
             yield return MoveToTarget(_basePosition);
+
+            if(_isEnoughGather)
+            {
+               break;
+            }
         }
 
+        _coroutine = null;
         WorkEnded?.Invoke(this);
+    }
+
+    public void GoToFlag(Vector3 newBasePosition)
+    {
+        StartCoroutine(Build(newBasePosition));
+    }
+
+    public void IsEnoughGather(bool isEnoughGather)
+    {
+        _isEnoughGather = isEnoughGather;
+    }
+
+    private IEnumerator Build(Vector3 position)
+    {
+        yield return MoveToTarget(position);
+
+        BuildStarted?.Invoke();
+        GameObject newBase = _builder.Build(position);
+
+        if (newBase.TryGetComponent(out Garage garage))
+        {
+            SetBase(garage.transform.position, garage);
+            garage.Return(this);
+        }
+
+        BuildStarted = null;
     }
 
     private IEnumerator MoveToTarget(Vector3 target)

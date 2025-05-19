@@ -16,6 +16,10 @@ public class Scaner : MonoBehaviour
     private void Awake()
     {
         _wait = new WaitForSeconds(_repeateTime);
+        
+    }
+    private void OnEnable()
+    {
         StartCoroutine(Scaning());
     }
 

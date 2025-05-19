@@ -6,7 +6,7 @@ public class Mover : MonoBehaviour
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _treshhold = 0.1f;
     [SerializeField] private float _botOffsetY = 1.5f;
-    //udrhiusertuigiuseghu
+
     public IEnumerator Move(Vector3 target)
     {
         target = new Vector3(target.x, target.y + _botOffsetY, target.z);

@@ -8,9 +8,18 @@ public class Storage : MonoBehaviour
 
     private Dictionary<ResourceType, int> _resources = new Dictionary<ResourceType, int>();
     private int _currentAmount = 0;
+    private int _startAmount = 0;
 
     public event Action<Dictionary<ResourceType, int>> ResourceChanged;
+    public event Action ResourceAdded;
     public event Action<int> TotalAmountChanged;
+
+    private void Start()
+    {
+        _resources.Add(ResourceType.Gold, _startAmount);
+        _resources.Add(ResourceType.Iron, _startAmount);
+        _resources.Add(ResourceType.Cupper, _startAmount);
+    }
 
     public void Collect(ResourcePiece resource, int amount)
     {
@@ -27,12 +36,38 @@ public class Storage : MonoBehaviour
         }
 
         _currentAmount += amountToAdd;
+        ResourceAdded?.Invoke();
         ResourceChanged?.Invoke(_resources);
         TotalAmountChanged?.Invoke(_currentAmount);
     }
 
+    public bool IsEnoughResource(Dictionary<ResourceType, int> cost)
+    {
+        foreach (var pair in cost)
+        {
+            if (_resources.ContainsKey(pair.Key) == false || _resources[pair.Key] < pair.Value)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void SpendResource(Dictionary<ResourceType, int> cost)
+    {
+        foreach (var pair in cost)
+        {
+            _resources[pair.Key] -= pair.Value;
+            _currentAmount -= pair.Value;
+        }
+
+        ResourceAdded?.Invoke();
+        ResourceChanged?.Invoke(_resources);
+    }
+
     public bool IsOverflow()
     {
-        return _maxCapacity == _currentAmount;
+        return _maxCapacity <= _currentAmount;
     }
 }

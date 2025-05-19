@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8465934965657139295}
   - component: {fileID: 4983826124737180269}
   - component: {fileID: 1772768535113867657}
+  - component: {fileID: 3652733418560440523}
   m_Layer: 0
   m_Name: Robot_Scout_HyperX_Red
   m_TagString: Untagged
@@ -142,6 +143,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &3652733418560440523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386959405607246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3552469340d447741b46f0f0f8698fd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _buildingObject: {fileID: 11400000, guid: 90c19f6eae2235a47bb12ac13624eb11, type: 2}
 --- !u!1 &1503955763486280
 GameObject:
   m_ObjectHideFlags: 0

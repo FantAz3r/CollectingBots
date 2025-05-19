@@ -3,9 +3,9 @@ using UnityEngine;
 
 public static class Utils
 {
-    public static ResourceNode GetClosestPosition(Vector3 currentPosition, List<ResourceNode> resources)
+    public static ResourceNode GetClosestNode(Vector3 currentPosition, List<ResourceNode> resources)
     {
-        if (resources == null || resources.Count == 0)
+        if (resources.Count == 0)
         {
             return null; 
         }
