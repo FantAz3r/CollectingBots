@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Scaner))]
+[RequireComponent(typeof(Scanner))]
 [RequireComponent(typeof(Storage))]
 [RequireComponent(typeof(Database))]
 [RequireComponent(typeof(Garage))]
@@ -9,13 +9,13 @@ public class Base : MonoBehaviour
 {
     private Garage _garage;
     private Database _dataBase;
-    private Scaner _scaner;
+    private Scanner _scaner;
     private Storage _storage;
 
     private void Awake()
     {
         _garage = GetComponent<Garage>();
-        _scaner = GetComponent<Scaner>();
+        _scaner = GetComponent<Scanner>();
         _storage = GetComponent<Storage>();
         _dataBase = GetComponent<Database>();
     }

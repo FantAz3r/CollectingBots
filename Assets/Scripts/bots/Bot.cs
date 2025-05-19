@@ -26,6 +26,7 @@ public class Bot : MonoBehaviour
     {
         _basePosition = basePosition;
     }
+
     public void StartWork(ResourceNode resource)
     {
         StartCoroutine(Gathering(resource));
