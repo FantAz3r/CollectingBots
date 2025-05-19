@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Scaner))]
+[RequireComponent(typeof(Scanner))]
 [RequireComponent(typeof(Storage))]
 [RequireComponent(typeof(Builder))]
 [RequireComponent(typeof(Garage))]
@@ -13,7 +13,7 @@ public class Base : MonoBehaviour
     private Database _database;
     private FlagSeter _flagSeter;
     private Garage _garage;
-    private Scaner _scaner;
+    private Scanner _scaner;
     private Storage _storage;
     private Builder _builder;
     private WaitForSeconds _delay;
@@ -24,7 +24,7 @@ public class Base : MonoBehaviour
         _delay = new WaitForSeconds(_buildDelay);
         _database = Camera.main.GetComponent<Database>();
         _garage = GetComponent<Garage>();
-        _scaner = GetComponent<Scaner>();
+        _scaner = GetComponent<Scanner>();
         _storage = GetComponent<Storage>();
         _builder = GetComponent<Builder>();
         _flagSeter = GetComponent<FlagSeter>();
@@ -109,6 +109,7 @@ public class Base : MonoBehaviour
                     _garage.Relocate(bot);
                     bot.BuildStarted += _flagSeter.Remove;
                     bot.GoToFlag(flag.transform.position);
+
                     yield break;
                 }
 
@@ -125,7 +126,7 @@ public class Base : MonoBehaviour
     private void OnReturn(Bot bot, ResourcePiece resource, int amount)
     {
         _storage.Collect(resource, amount);
-        bot.IsEnoughGather(_storage.IsOverflow());
+        bot.StopGather(_storage.IsOverflow());
     }
 
     private void OnWorkComplite(Bot bot)

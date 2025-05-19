@@ -17,7 +17,7 @@ public class Bot : MonoBehaviour
     private Garage _currentGarage;
     private Coroutine _coroutine;
 
-    private bool _isEnoughGather;
+    private bool _stopGather;
 
     public event Action<Bot, ResourcePiece, int> Returned;
     public event Action<Bot> WorkEnded;
@@ -35,6 +35,16 @@ public class Bot : MonoBehaviour
     {
         _basePosition = basePosition;
         _currentGarage = garage;
+    }
+
+    public void GoToFlag(Vector3 newBasePosition)
+    {
+        StartCoroutine(Build(newBasePosition));
+    }
+
+    public void StopGather(bool stopGather)
+    {
+        _stopGather = stopGather;
     }
 
     public void StartWork(ResourceNode resource, Transform garage)
@@ -60,7 +70,7 @@ public class Bot : MonoBehaviour
             yield return _picker.PickUp(resource);
             yield return MoveToTarget(_basePosition);
 
-            if(_isEnoughGather)
+            if(_stopGather)
             {
                break;
             }
@@ -68,16 +78,6 @@ public class Bot : MonoBehaviour
 
         _coroutine = null;
         WorkEnded?.Invoke(this);
-    }
-
-    public void GoToFlag(Vector3 newBasePosition)
-    {
-        StartCoroutine(Build(newBasePosition));
-    }
-
-    public void IsEnoughGather(bool isEnoughGather)
-    {
-        _isEnoughGather = isEnoughGather;
     }
 
     private IEnumerator Build(Vector3 position)

@@ -23,6 +23,7 @@ public class Database : MonoBehaviour
         if (_nodes.Count == 0)
         {
             _currentNode = null;
+
             return null;
         }
 

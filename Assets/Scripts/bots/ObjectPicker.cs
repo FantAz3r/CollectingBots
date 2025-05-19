@@ -38,7 +38,6 @@ public class ObjectPicker : MonoBehaviour
         yield return _delay;
         _currentObject = GetResource(resourceNode);
         _currentObject.gameObject.SetActive(true);
-
     }
 
     private ResourcePiece GetResource(ResourceNode resourceNode)

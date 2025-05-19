@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scaner : MonoBehaviour
+public class Scanner : MonoBehaviour
 {
     [SerializeField] private float _scanRadius = 100f;
     [SerializeField] private float _repeateTime = 5f;
@@ -16,8 +16,8 @@ public class Scaner : MonoBehaviour
     private void Awake()
     {
         _wait = new WaitForSeconds(_repeateTime);
-        
     }
+
     private void OnEnable()
     {
         StartCoroutine(Scaning());

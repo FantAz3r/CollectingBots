@@ -37,8 +37,7 @@ public class Storage : MonoBehaviour
 
         _currentAmount += amountToAdd;
         ResourceAdded?.Invoke();
-        ResourceChanged?.Invoke(_resources);
-        TotalAmountChanged?.Invoke(_currentAmount);
+        ViewActions();
     }
 
     public bool IsEnoughResource(Dictionary<ResourceType, int> cost)
@@ -62,12 +61,17 @@ public class Storage : MonoBehaviour
             _currentAmount -= pair.Value;
         }
 
-        ResourceAdded?.Invoke();
-        ResourceChanged?.Invoke(_resources);
+        ViewActions();
     }
 
     public bool IsOverflow()
     {
         return _maxCapacity <= _currentAmount;
+    }
+
+    private void ViewActions()
+    {
+        ResourceAdded?.Invoke();
+        ResourceChanged?.Invoke(_resources);
     }
 }
