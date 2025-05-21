@@ -149,13 +149,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _resourcePrefabs:
-  - {fileID: -6745393813870467080, guid: 2fbe16c206e141245b0c4b20de5e2a62, type: 3}
-  - {fileID: 7042972169643590177, guid: dd35a2baa2cfd2c4d8efd51a61061e28, type: 3}
   - {fileID: 8118567842912253429, guid: 4bcd7948fdd17e74ebf1a06f654e4535, type: 3}
-  _itemAmount: 50
+  - {fileID: 7042972169643590177, guid: dd35a2baa2cfd2c4d8efd51a61061e28, type: 3}
+  - {fileID: -6745393813870467080, guid: 2fbe16c206e141245b0c4b20de5e2a62, type: 3}
+  _itemAmount: 100
   _recoveryTime: 10
   _recoveryCount: 5
-  _spawnRadius: 450
+  _spawnRadius: 200
   _minDistanceBetweenResources: 1.5
   _groundLayer:
     serializedVersion: 2
@@ -322,42 +322,6 @@ PrefabInstance:
     - target: {fileID: 4394146973686580, guid: abbd383e1de4abf4e8f71d6191cd45f8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4529333615747664, guid: abbd383e1de4abf4e8f71d6191cd45f8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1772768535113867657, guid: abbd383e1de4abf4e8f71d6191cd45f8, type: 3}
-      propertyPath: m_Drag
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1772768535113867657, guid: abbd383e1de4abf4e8f71d6191cd45f8, type: 3}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1772768535113867657, guid: abbd383e1de4abf4e8f71d6191cd45f8, type: 3}
-      propertyPath: m_Constraints
-      value: 122
-      objectReference: {fileID: 0}
-    - target: {fileID: 3652733418560440523, guid: abbd383e1de4abf4e8f71d6191cd45f8, type: 3}
-      propertyPath: _buildingObject
-      value: 
-      objectReference: {fileID: 11400000, guid: 90c19f6eae2235a47bb12ac13624eb11, type: 2}
-    - target: {fileID: 4983826124737180269, guid: abbd383e1de4abf4e8f71d6191cd45f8, type: 3}
-      propertyPath: _resources.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4983826124737180269, guid: abbd383e1de4abf4e8f71d6191cd45f8, type: 3}
-      propertyPath: '_resources.Array.data[0]'
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4983826124737180269, guid: abbd383e1de4abf4e8f71d6191cd45f8, type: 3}
-      propertyPath: '_resources.Array.data[1]'
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4983826124737180269, guid: abbd383e1de4abf4e8f71d6191cd45f8, type: 3}
-      propertyPath: '_resources.Array.data[2]'
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

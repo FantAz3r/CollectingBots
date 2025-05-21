@@ -15,11 +15,11 @@ public static class Utils
 
         foreach (var resource in resources)
         {
-            float dist = Vector3.SqrMagnitude(currentPosition - resource.transform.position);
+            float distanse = Vector3.SqrMagnitude(currentPosition - resource.transform.position);
 
-            if (dist < minDistance)
+            if (distanse < minDistance)
             {
-                minDistance = dist;
+                minDistance = distanse;
                 closestResource = resource;
             }
         }

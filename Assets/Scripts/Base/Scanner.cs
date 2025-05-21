@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Scanner : MonoBehaviour
 {
@@ -47,7 +48,13 @@ public class Scanner : MonoBehaviour
 
         if (foundResources.Count > 0)
         {
+            foundResources = SortedByDistance(foundResources);
             ScanComplited?.Invoke(foundResources);
         }
+    }
+
+    private List<ResourceNode> SortedByDistance(List<ResourceNode> foundResources)
+    {
+        return foundResources.OrderBy(resource => (transform.position - resource.transform.position).sqrMagnitude).ToList();
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dffe5fb29cd11304c928e13fdd98a09b, type: 3}
   m_Name: Bot
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 1386959405607246, guid: abbd383e1de4abf4e8f71d6191cd45f8, type: 3}
+  _prefab: {fileID: 2778194942310368091, guid: abbd383e1de4abf4e8f71d6191cd45f8, type: 3}
   _goldCost: 0
   _ironCost: 2
   _cupperCost: 1

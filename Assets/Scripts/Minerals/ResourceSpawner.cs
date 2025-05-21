@@ -9,14 +9,14 @@ public class ResourceSpawner : MonoBehaviour
     [SerializeField] private int _recoveryCount = 1;
 
     [SerializeField] private float _spawnRadius = 20f;
-    [SerializeField] private float _minDistanceBetweenResources = 1.5f;
+    [SerializeField] private float _minDistanceBetweenObjects = 1.5f;
 
     [SerializeField] private LayerMask _groundLayer;
-    [SerializeField] private LayerMask _resourceLayer;
+    [SerializeField] private LayerMask _ignorResourseLayers;
 
     private WaitForSeconds _wait;
 
-    private void Start()
+    private void Awake()
     {
         _wait = new WaitForSeconds(_recoveryTime);
         SpawnNode(_itemAmount);
@@ -40,9 +40,9 @@ public class ResourceSpawner : MonoBehaviour
 
         while (spawned < itemAmount && attempts < maxAttempts)
         {
-            Vector3 spawnPos = GetRandomPosition();
+            Vector3 spawnPos;
 
-            if (IsValidSpawnPosition(spawnPos))
+            if (TryGetRandomPosition(out spawnPos) && IsValidSpawnPosition(spawnPos))
             {
                 ResourceNode resourcePrefab = _resourcePrefabs[Random.Range(0, _resourcePrefabs.Length)];
                 Instantiate(resourcePrefab, spawnPos, Quaternion.identity);
@@ -53,28 +53,29 @@ public class ResourceSpawner : MonoBehaviour
         }
     }
 
-    private Vector3 GetRandomPosition()
+    private bool TryGetRandomPosition(out Vector3 position)
     {
         Vector2 randomCircle = Random.insideUnitCircle * _spawnRadius;
-        Vector3 position = new Vector3(transform.position.x + randomCircle.x, transform.position.y, transform.position.z + randomCircle.y);
-        RaycastHit hit;
-        float offsetY = 0;
-
-        if (Physics.Raycast(position, Vector3.down, out hit, float.MaxValue, _groundLayer))
+        Vector3 startPos = new Vector3(
+            transform.position.x + randomCircle.x,
+            transform.position.y , 
+            transform.position.z + randomCircle.y);
+       
+        if (Physics.Raycast(startPos, Vector3.down, out RaycastHit hit, transform.position.y, _groundLayer))
         {
-            position.y = hit.point.y + offsetY;
+            position = hit.point;
+            return true;
         }
         else
         {
-            position.y = transform.position.y + offsetY;
+            position = Vector3.zero;
+            return false;
         }
-
-        return position;
     }
 
     private bool IsValidSpawnPosition(Vector3 position)
     {
-        Collider[] colliders = Physics.OverlapSphere(position, _minDistanceBetweenResources, _resourceLayer);
+        Collider[] colliders = Physics.OverlapSphere(position, _minDistanceBetweenObjects, _ignorResourseLayers);
         return colliders.Length == 0;
     }
 }

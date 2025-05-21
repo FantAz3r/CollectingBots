@@ -10,7 +10,7 @@ using UnityEngine;
 
 public class Base : MonoBehaviour
 {
-    private Database _database;
+    private FreeNodeChecker _database;
     private FlagSeter _flagSeter;
     private Garage _garage;
     private Scanner _scaner;
@@ -22,7 +22,7 @@ public class Base : MonoBehaviour
     private void Awake()
     {
         _delay = new WaitForSeconds(_buildDelay);
-        _database = Camera.main.GetComponent<Database>();
+        _database = Camera.main.GetComponent<FreeNodeChecker>();
         _garage = GetComponent<Garage>();
         _scaner = GetComponent<Scanner>();
         _storage = GetComponent<Storage>();
@@ -46,24 +46,26 @@ public class Base : MonoBehaviour
 
     private void SendBot(List<ResourceNode> targets)
     {
+        ResourceNode targetNode = null;
+
         if (_storage.IsOverflow() == false)
         {
-            ResourceNode target = _database.GetFreeNode(targets, this);
-
-            if (target == null)
-                return;
-
-            Bot bot = _garage.Get();
-
-            if (bot == null)
-                return;
-
-            if (_database.RequestAccess(this, target))
+            foreach (ResourceNode target in targets)
             {
-                _database.BuzyNode(target, this);
+                if (_database.IsNodeFree(target))
+                {
+                    targetNode = target;
+                    break;
+                }
+            }
+
+            if(_garage.IsFreeBot)
+            {
+                _database.BuzyNode(targetNode);
+                Bot bot = _garage.Get();
                 bot.WorkEnded += OnWorkComplite;
                 bot.Returned += OnReturn;
-                bot.StartWork(target, transform);
+                bot.StartWork(targetNode, transform);
             }
         }
     }
@@ -81,9 +83,9 @@ public class Base : MonoBehaviour
         if (_storage.IsEnoughResource(_builder.BuildingObject.ReturnCost()))
         {
             _storage.SpendResource(_builder.BuildingObject.ReturnCost());
-            BuildingObject buildingObject = _builder.Build(transform.position);
+            GameObject buildingObject = _builder.Build(transform.position);
 
-            if (buildingObject != null && buildingObject.Prefab.TryGetComponent(out Bot bot))
+            if (buildingObject != null && buildingObject.TryGetComponent(out Bot bot))
             {
                 _garage.Return(bot);
             }
@@ -103,7 +105,6 @@ public class Base : MonoBehaviour
             {
                 if (_storage.IsEnoughResource(baseCost) && _garage.IsFreeBot)
                 {
-
                     Bot bot = _garage.Get();
                     _storage.SpendResource(baseCost);
                     _garage.Relocate(bot);

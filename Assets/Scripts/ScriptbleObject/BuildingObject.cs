@@ -4,12 +4,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "new build", menuName = "Builds", order = 51)]
 public class BuildingObject : ScriptableObject
 {
-    [SerializeField] private GameObject _prefab;
+    [SerializeField] private ConstructionObject _prefab;
     [SerializeField] private int _goldCost;
     [SerializeField] private int _ironCost;
     [SerializeField] private int _cupperCost;
 
-    public GameObject Prefab => _prefab;
+    public ConstructionObject Prefab => _prefab;
 
     public Dictionary<ResourceType, int> ReturnCost()
     {

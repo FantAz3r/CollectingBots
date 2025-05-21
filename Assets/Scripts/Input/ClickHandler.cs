@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,17 +12,20 @@ public class ClickHandler : MonoBehaviour
     private void Awake()
     {
         _playerInput = new PlayerInput();
-        _playerInput.Player.GetTarget.performed += ctx => OnLeftButtonDown();
-        _playerInput.Player.Select.performed += ctx => OnRightButtonDown();
     }
 
     private void OnEnable()
     {
         _playerInput.Enable();
+        _playerInput.Player.GetTarget.performed += ctx => OnLeftButtonDown();
+        _playerInput.Player.Select.performed += ctx => OnRightButtonDown();
+
     }
 
     private void OnDisable()
     {
+        _playerInput.Player.GetTarget.performed -= ctx => OnLeftButtonDown();
+        _playerInput.Player.Select.performed -= ctx => OnRightButtonDown();
         _playerInput.Disable();
     }
 
